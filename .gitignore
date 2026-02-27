@@ -1,0 +1,15 @@
+# Unity Specific
+Library
+Logs
+Temp
+Obj
+Build
+UserSettings
+
+# Visual Studio
+*.sln
+.DS_Store
+Thumbs.db
+.vscode
+settings.json
+*.zip
