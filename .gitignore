@@ -11,5 +11,8 @@ UserSettings
 .DS_Store
 Thumbs.db
 .vscode
+.vsconfig
 settings.json
 *.zip
+*.htm
+*.csproj
