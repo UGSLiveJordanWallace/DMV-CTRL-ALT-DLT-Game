@@ -1,5 +1,3 @@
-using UnityEditor.U2D.Animation;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,39 +6,43 @@ public class Joint : MonoBehaviour
     [SerializeField] private GameObject limb;
     public Slider slider;
 
-    [SerializeField] private Joint subjoint;
     [SerializeField] private bool isRight = false;
 
-    private bool rotateable = true;
+    private float radius;
+
+    void Start()
+    {
+        radius = GetLength(limb);
+    }
 
     void Update()
     {
-        limb.transform.position = transform.position;
-        if (rotateable)
+        UpdatePosition();
+        UpdateAngle();
+    }
+
+    void UpdatePosition()
+    {
+        float angle = isRight ? slider.value * 179 - 90f : -(slider.value * 179) - 90f;
+        float x = transform.position.x + radius * Mathf.Cos((Mathf.PI / 180) * angle);
+        float y = transform.position.y + radius * Mathf.Sin((Mathf.PI / 180) * angle);
+        limb.transform.position = new Vector3(x, y);
+    }
+
+    void UpdateAngle()
+    {
+        Vector3 pos = limb.transform.position - transform.position;
+        float angle = 0;
+        if (pos.x != 0)
         {
-            Rotate(slider.value);
+            angle = Mathf.Atan2(pos.y, pos.x) + (Mathf.PI / 2);
         }
+        
+        limb.transform.rotation = Quaternion.Euler(0, 0, (180 / Mathf.PI) * angle);
     }
 
     float GetLength(GameObject obj)
     {
         return (transform.position - obj.transform.position).magnitude;
-    }
-
-    public void Rotate(float degrees)
-    {
-        if (subjoint)
-        {
-            subjoint.SetRotateable(false);
-        }
-        limb.transform.rotation = Quaternion.Euler(0, 0, isRight ? 360 * degrees : -360 * degrees);
-        if (subjoint)
-        {
-            subjoint.SetRotateable(true);
-        }
-    }
-    public void SetRotateable(bool isRotateable)
-    {
-        rotateable = isRotateable;
     }
 }

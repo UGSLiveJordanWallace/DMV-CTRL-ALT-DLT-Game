@@ -16,3 +16,4 @@ settings.json
 *.zip
 *.htm
 *.csproj
+.idea
