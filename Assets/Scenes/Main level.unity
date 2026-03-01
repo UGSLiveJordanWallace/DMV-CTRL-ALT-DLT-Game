@@ -1236,6 +1236,7 @@ GameObject:
   - component: {fileID: 442040135}
   - component: {fileID: 442040138}
   - component: {fileID: 442040139}
+  - component: {fileID: 442040140}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1377,6 +1378,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &442040140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442040134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ae0e408349d9a4b9d4249c17a9c886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuitGame
 --- !u!1 &450740923
 GameObject:
   m_ObjectHideFlags: 0

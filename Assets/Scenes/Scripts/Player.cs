@@ -1,8 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.InputSystem;
-using UnityEngine.Playables;
 
 public class Player : MonoBehaviour
 {
