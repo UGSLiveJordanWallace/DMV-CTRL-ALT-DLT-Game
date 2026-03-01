@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class Hand : MonoBehaviour
 {
     [SerializeField] private new SpriteRenderer renderer;
-    [SerializeField] private Toggle handClosed;
-    [SerializeField] private GameObject wall;
+    [SerializeField] private JointLever handClosed;
 
     public enum HandState
     {
@@ -15,7 +14,6 @@ public class Hand : MonoBehaviour
     };
 
     private HandState _handState = HandState.Open;
-
     private Vector3 offsetState;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -44,10 +42,6 @@ public class Hand : MonoBehaviour
                     _handState = HandState.Open;
                 }
                 renderer.color = Color.blue;
-                
-                Vector3 offset = GetOffset();
-                Debug.Log(offset); 
-                wall.transform.position += offset;
                 break;
         }
         offsetState = transform.position;
@@ -69,5 +63,4 @@ public class Hand : MonoBehaviour
             return Vector3.zero;
         }
     }
-
 }

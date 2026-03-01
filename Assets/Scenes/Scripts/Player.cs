@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 public class Player : MonoBehaviour
 {
@@ -9,9 +12,11 @@ public class Player : MonoBehaviour
     private float dampCoef = 0.9f;
     [SerializeField] 
     private float speed = 10.0f;
-
     private Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
     private float accelerationCoef = 1.0f;
+
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     private enum PlayerState {
         IDLE,
@@ -39,6 +44,14 @@ public class Player : MonoBehaviour
                     playerState = PlayerState.WALK;
                     accelerationCoef = 1;
                     velocity = new Vector3(move.ReadValue<Vector2>().x, move.ReadValue<Vector2>().y, 0) * (speed * Time.deltaTime);
+                    if (move.ReadValue<Vector2>().x < 0)
+                    {
+                        spriteRenderer.flipX = true;
+                    } else
+                    {
+                        spriteRenderer.flipX = false;
+                    }
+                    animator.Play("Walk 1");
                 }
                 break;
             case PlayerState.WALK:
@@ -46,7 +59,18 @@ public class Player : MonoBehaviour
                 {
                     playerState = PlayerState.IDLE;
                     accelerationCoef = dampCoef;
+                    animator.Play("Walk");
                 }
+
+                velocity = new Vector3(move.ReadValue<Vector2>().x, move.ReadValue<Vector2>().y, 0) * (speed * Time.deltaTime);
+                if (move.ReadValue<Vector2>().x < 0)
+                {
+                    spriteRenderer.flipX = true;
+                } else
+                {
+                    spriteRenderer.flipX = false;
+                }
+
                 break;
             default:
                 break;

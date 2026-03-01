@@ -1,13 +1,13 @@
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Joint : MonoBehaviour
 {
     [SerializeField] private GameObject limb;
-    public Slider slider;
+    [SerializeField] private JointDial dial;
 
     [SerializeField] private bool isRight = false;
-
     private float radius;
 
     void Start()
@@ -23,7 +23,7 @@ public class Joint : MonoBehaviour
 
     void UpdatePosition()
     {
-        float angle = isRight ? slider.value * 179 - 90f : -(slider.value * 179) - 90f;
+        float angle = isRight ? dial.GetSliderValue() * 360 - 90f : -(dial.GetSliderValue() * 360) - 90f;
         float x = transform.position.x + radius * Mathf.Cos((Mathf.PI / 180) * angle);
         float y = transform.position.y + radius * Mathf.Sin((Mathf.PI / 180) * angle);
         limb.transform.position = new Vector3(x, y);

@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class JointLever : MonoBehaviour
+public class JointLever : MonoBehaviour, IPointerClickHandler
 {
     public BodyWindow parentWindow;
     public Transform leverHandle; // The part that actually tilts
@@ -15,18 +16,16 @@ public class JointLever : MonoBehaviour
         if (parentWindow != null && !parentWindow.CanInteract()) return;
 
         // Smoothly rotate the handle to the target position
-        float targetZ = isOn ? tiltAngle : -tiltAngle;
+        float targetZ = isOn ? -tiltAngle : 0;
         Quaternion targetRotation = Quaternion.Euler(0, 0, targetZ);
         leverHandle.localRotation = Quaternion.Slerp(leverHandle.localRotation, targetRotation, Time.deltaTime * 10f);
     }
 
-    private void OnMouseDown()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        // Only flip if the player is actually in the room
         if (parentWindow != null && parentWindow.CanInteract())
         {
             isOn = !isOn;
-            Debug.Log(parentWindow.jointName + " Lever is now: " + (isOn ? "ON" : "OFF"));
         }
     }
 }

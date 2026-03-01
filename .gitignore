@@ -6,7 +6,7 @@ Obj
 Build
 UserSettings
 
-# Visual Studio
+# IDE Configs and Other Unnecessary Files
 *.sln
 .DS_Store
 Thumbs.db
@@ -17,3 +17,4 @@ settings.json
 *.htm
 *.csproj
 .idea
+DMV-CTRL-ALT-DLT-Game.sln.DotSettings.user

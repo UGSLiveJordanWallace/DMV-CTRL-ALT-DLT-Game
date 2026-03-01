@@ -1,6 +1,9 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-public class JointDial : MonoBehaviour
+public class JointDial : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public BodyWindow parentWindow;
     public Transform dialVisual;
@@ -9,9 +12,12 @@ public class JointDial : MonoBehaviour
     private bool _isDragging = false;
     private Quaternion _initialRotation;
 
+    private float lastAngle;
+
     void Start()
     {
         _initialRotation = dialVisual.localRotation;
+        lastAngle = 0f;
     }
 
     void Update()
@@ -21,10 +27,20 @@ public class JointDial : MonoBehaviour
 
         if (_isDragging)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector2 direction = mousePos - dialVisual.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            dialVisual.rotation = Quaternion.Euler(0, 0, angle - 90f);
+            float angle = 0;
+            if (direction.y < 0)
+            {
+                angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                angle += 360f;
+            }
+            else
+            {
+                angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            }
+            dialVisual.rotation = Quaternion.Euler(0, 0, angle);
+            lastAngle = angle;
         }
         else
         {
@@ -33,6 +49,18 @@ public class JointDial : MonoBehaviour
         }
     }
 
-    private void OnMouseDown() { if (parentWindow.CanInteract()) _isDragging = true; }
-    private void OnMouseUp() { _isDragging = false; }
+    public float GetSliderValue()
+    {
+        return lastAngle / 360f;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (parentWindow.CanInteract()) _isDragging = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _isDragging = false;
+    }
 }

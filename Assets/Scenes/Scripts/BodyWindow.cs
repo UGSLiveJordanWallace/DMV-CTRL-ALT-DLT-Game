@@ -11,7 +11,6 @@ public class BodyWindow : MonoBehaviour
 
     [Header("Current Joint Output")]
     [Range(0f, 1f)] public float moveMagnitude; // Dial value
-    public bool isArmMode;                      // Lever value (True=Arms, False=Legs)
 
     private bool _isPlayerInside = false;
 
